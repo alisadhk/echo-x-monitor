@@ -3,10 +3,10 @@
 <p align="center"><b>Network latency monitor with ping/MTR, alarms and drag-and-drop hosts</b></p>
 
 <p align="center">
-  ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
-  ![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows&logoColor=white)
-  ![Updated](https://img.shields.io/badge/updated-2026-04-15-success)
-  [![Releases](https://img.shields.io/badge/downloads-Releases-blue)](https://github.com/alisadhk/echo-x-monitor/releases/latest)
+  <img src="https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/platform-Windows-0078D6?logo=windows&logoColor=white" alt="Platform">
+  <img src="https://img.shields.io/badge/updated-2026--04--15-success" alt="Updated">
+  <a href="https://github.com/alisadhk/echo-x-monitor/releases/latest"><img src="https://img.shields.io/badge/downloads-Releases-blue" alt="Releases"></a>
 </p>
 
 ---
@@ -21,8 +21,24 @@ Echo-X Monitor is a PyQt5 network monitoring tool. It pings and traces (MTR) man
 - Drag and drop host ordering, column count and font-size controls
 - Snooze and host keys shortcuts
 - License activation dialog
+- True loopback latency: measures through live SSH tunnels to internal Linux servers using public loopback IPs
+- Scheduled traceroutes to isolate packet loss by region
+- Local SQLite storage and PDF report generation (as described in the project notes)
+- Visual status matrix with customizable threshold colors
+
+## How it works
+- Each tile in the grid is a monitored location with its own SSH probe.
+- Echo-X connects to the probe over SSH (paramiko) and runs ping/MTR from there, so you measure from inside the network outwards.
+- Every reply is compared with your thresholds and the tile changes color (good / medium / warning / error).
+- Alarm sounds play when a tile enters red; **Snooze** and **Mute** silence them temporarily.
+
+## Requirements
+- Windows 10/11.
+- SSH access to your probe servers (fill the LOCATIONS table in the source).
+- Python 3.10+, PyQt5 and paramiko when running from source.
 
 ## Screenshots
+<p align="center"><img src="screenshots/overview.png" alt="Echo-X Monitor screenshot" width="720"></p>
 <p align="center"><img src="screenshots/screenshot-1.png" alt="Echo-X Monitor screenshot" width="720"></p>
 
 ## Download and install
@@ -57,6 +73,11 @@ python 666.py
 - All sensitive values from the original private version (passwords, tokens, license codes, user names, internal IP addresses, personal names and links) were replaced with `*****`.
 - The LOCATIONS table (SSH hosts, users, passwords and source IPs) is fully masked. Fill in your own probes to use the remote-source feature.
 - The license key is masked; set your own in 666.py.
+
+## Troubleshooting
+- Tiles stay idle: the masked ***** values must be replaced with your own hosts, users and sources.
+- No sound: check **Settings > Sound Alerts** and Windows volume.
+- Window too crowded: change **Columns** and **Font Size**.
 
 ## Build the executable yourself
 ```bash
